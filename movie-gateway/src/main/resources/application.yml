@@ -1,0 +1,29 @@
+server:
+  port: 8034   
+
+spring:
+ application:
+  name: movie-gateway
+ cloud:
+  gateway:
+   server:
+    webflux:
+      routes:
+       - id: movie-streaming-service
+         uri: http://localhost:8091
+         predicates:
+          - Path=/stream/**
+
+       - id: movie-catalogue-service
+         uri: http://localhost:8090
+         predicates:
+          - Path=/movie-info/**
+eureka:
+ client:
+  register-with-eureka: true
+  fetch-registry: true
+  service-url:
+   defaultZone: http://localhost:8761/eureka
+
+ instance:
+   hostname: localhost
